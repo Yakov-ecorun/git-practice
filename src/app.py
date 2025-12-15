@@ -1,26 +1,15 @@
-import sys
+import subprocess
 
-if len(sys.argv) < 2:
-    print("Usage: python3 app.py <file>")
-    sys.exit(1)
+sites = ["google.com", "github.com", "nosite.local"]
 
-file_path = sys.argv[1]
+for site in sites:
+    result = subprocess.run(
+        ["ping", "-c", "1", site],
+        stdout=subprocess.DEVNULL,
+	stderr=subprocess.DEVNULL
+    )
 
-try:
-    with open(file_path, "r") as file:
-        lines = file.readlines()
-except FileNotFoundError:
-    print("File not found")
-    sys.exit(1)
-
-line_count = len(lines)
-word_count = 0
-
-for line in lines:
-    word_count += len(line.split())
-
-print(f"File: {file_path}")
-print(f"Lines: {line_count}")
-print(f"Words: {word_count}")
-
-sys.exit(0)
+    if result.returncode == 0:
+        print(site, "OK")
+    else:
+        print(site, "FAIL")
