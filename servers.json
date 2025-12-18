@@ -1,4 +1,6 @@
 {
-  "server1": "192.168.1.10",
-  "server2": "192.168.1.11"
+  "google.com": "check",
+  "github.com": "check",
+  "nosite.local": "check"
 }
+
