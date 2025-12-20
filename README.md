@@ -25,6 +25,7 @@ Automation example:
 
 ```bash
 ./run_monitor.sh || echo "ALERT!"
+```
 
 ## Project Structure
 
@@ -37,7 +38,7 @@ git-practice/
 └── README.md
 ```
 
-## Technologies Used
+Technologies Used
 
 Linux
 
