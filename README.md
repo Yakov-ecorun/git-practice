@@ -38,7 +38,7 @@ git-practice/
 └── README.md
 ```
 
-Technologies Used
+## Technologies Used
 
 Linux
 
