@@ -1,6 +1,12 @@
-{
-  "google.com": "check",
-  "github.com": "check",
-  "nosite.local": "check"
-}
-
+[
+  {
+    "name": "Google",
+    "host": "google.com",
+    "url": "https://www.google.com"
+  },
+  {
+    "name": "GitHub",
+    "host": "github.com",
+    "url": "https://github.com"
+  }
+]
