@@ -1,46 +1,62 @@
 import subprocess
 import json
 import logging
+import time
 from pathlib import Path
 import sys
 
-# 1. Логирование
+# Настройка логирования
 logging.basicConfig(
     filename="logs/monitor.log",
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s"
 )
 
-# 2. Проверка конфигурации
-config_file = Path("servers.json")
+CONFIG_FILE = Path("servers.json")
 
-if not config_file.exists():
+if not CONFIG_FILE.exists():
     logging.error("servers.json not found")
     sys.exit(1)
 
-# 3. Чтение JSON → dict / list
-with open(config_file) as f:
-    sites = json.load(f)
+with open(CONFIG_FILE) as f:
+    servers = json.load(f)
 
-failed = False
-
-# 4. ОДИН проход проверки
-for site in sites:
+def ping_host(host):
     result = subprocess.run(
-        ["ping", "-c", "1", site],
+        ["ping", "-c", "1", host],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL
     )
+    return result.returncode == 0
 
-    if result.returncode == 0:
-        logging.info(f"{site} OK")
-    else:
-        logging.error(f"{site} FAIL")
+def check_http(url):
+    result = subprocess.run(
+        ["curl", "-I", "-s", url],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL
+    )
+    return b"200" in result.stdout or b"301" in result.stdout
+
+failed = False
+
+for server in servers:
+    name = server["name"]
+    host = server["host"]
+    url = server["url"]
+
+    if not ping_host(host):
+        logging.error(f"{name} PING FAIL")
         failed = True
+        continue
 
-# 5. Exit code для Bash / CI
+    if not check_http(url):
+        logging.error(f"{name} HTTP FAIL")
+        failed = True
+        continue
+
+    logging.info(f"{name} OK")
+
 if failed:
     sys.exit(1)
-else:
-    sys.exit(0)
 
+sys.exit(0)
