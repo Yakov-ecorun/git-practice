@@ -1,0 +1,11 @@
+app:
+  name: site-monitor
+  interval: 10
+
+logging:
+  level: INFO
+  file: logs/app.log
+
+sites:
+  - https://google.com
+  - https://github.com
