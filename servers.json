@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Google",
+    "host": "google.com",
+    "url": "https://www.google.com"
+  },
+  {
+    "name": "GitHub",
+    "host": "github.com",
+    "url": "https://github.com"
+  }
+]

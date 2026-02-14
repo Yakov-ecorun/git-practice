@@ -1,0 +1,10 @@
+app:
+  name: site-monitor
+  interval: 10
+
+logging:
+  level: INFO
+  file: logs/monitor.log
+
+data:
+  servers_file: servers.json
